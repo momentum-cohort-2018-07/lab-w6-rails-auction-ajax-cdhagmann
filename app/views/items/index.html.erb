@@ -1,36 +1,49 @@
+<div class="jumbotron container text-center bg-warning">
+  <h1 class="jumbotron-heading text-white">Ajax's Art Auction House</h1>
+</div>
+
+
 <% if notice %>
-<p class="alert alert-primary"><%= notice %></p>
+  <p id="notice" class="alert alert-success" role="alert"><%= notice %></p>
 <% end %>
-<h1>Listing Items</h1>
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>Title</th>
-      <th>Artist</th>
-      <th>Description</th>
-      <th>Starting Bid</th>
-      <th>Highest Bid</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @items.each do |item| %>
-      <tr>
-        <td><%= image_tag item.image_url, class: "thumbnail img-thumbnail" %></td>
-        <td><%= item.title %></td>
-        <td><%= item.artist %></td>
-        <td><%= item.description %></td>
-        <td><%= number_to_currency(item.starting_bid) %></td>
-        <td><%= number_to_currency(item.highest_bid_amount) %></td>
-        <td><%= link_to 'Bid!', item, class: "btn btn-primary btn-sm" %></td>
-        <td><%= link_to 'Edit', edit_item_path(item), class: "btn btn-secondary btn-sm" %></td>
-        <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+<main role="main">
+  <div class="container">
+    <div class="row">
+      <% @items.each do |item| %>
+        <div class="col-md-4 album">
+          <div class="card mb-4 shadow-lg">
+            <% begin %>
+              <%= image_tag item.image_url, class: "thumbnail img-thumbnail" %>
+            <% rescue %>
+            <% end %>
+            <div class="card-body">
+              <h4 class="text-center"><%= item.title %></h4>
+              <% if item.artist != '' %>
+                <h6 class="text-center">By <%= item.artist %></h6>
+              <% else %>
+                <h6 class="text-center">Artist Unknown</h6>
+              <% end %>
+              <p><%= item.description %></p>
+              <p>Starting Bid: <%= number_to_currency(item.starting_bid) %></p>
+              <p>Current Bid: <%= number_to_currency(item.highest_bid_amount) %></p>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-center align-items-center btn-group">
+                <%= link_to 'Bid!', item, class: "btn btn-primary btn-sm" %>
+                <%= link_to 'Edit', edit_item_path(item), class: "btn btn-secondary btn-sm" %>
+                <%= link_to 'Destroy', item, method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-danger" %>
+              </div>
 
-<%= link_to 'New Item', new_item_path, class: "btn btn-primary btn-small" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</main>
+
+<%= link_to 'New Item', new_item_path %>
+
+

@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :refresh_part]
 
   def index
     @items = Item.all
@@ -46,6 +46,6 @@ class ItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.require(:item).permit(:title, :description, :starting_bid, :image_url)
+      params.require(:item).permit(:title, :artist, :description, :starting_bid, :image_url)
     end
 end
